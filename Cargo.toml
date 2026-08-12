@@ -4,3 +4,4 @@ members = ["crates/*"]
 
 [workspace.dependencies]
 serde = { version = "1.0.229", features = ["derive"] }
+iced = "0.14.0"
