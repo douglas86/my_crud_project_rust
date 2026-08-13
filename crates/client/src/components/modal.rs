@@ -74,3 +74,56 @@ impl Modal {
             .into()
     }
 }
+
+/// # Tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_modal_default_is_closed() {
+        let modal = Modal::default();
+        assert_eq!(modal.show_modal, false);
+    }
+
+    #[test]
+    fn test_open_modal_update_state() {
+        let mut modal = Modal::default();
+
+        modal.modal_update(MsgModal::OpenModal);
+        assert_eq!(modal.show_modal, true);
+    }
+
+    #[test]
+    fn test_close_modal_update_state() {
+        let mut modal = Modal::default();
+
+        modal.modal_update(MsgModal::CloseModal);
+        assert_eq!(modal.show_modal, false);
+    }
+
+    #[test]
+    fn test_modal_view_construction() {
+        let modal_closed = Modal::default();
+        let modal_open = Modal { show_modal: true };
+
+        let _closed_element = modal_closed.modal_view();
+        let _open_element = modal_open.modal_view();
+    }
+
+    #[test]
+    fn test_modal_open_and_close_lifecycle() {
+        let mut modal = Modal::default();
+
+        // Initial state: Modal is closed
+        assert_eq!(modal.show_modal, false);
+
+        // User clicks the "Open" button (triggers MsgModal::OpenModal)
+        modal.modal_update(MsgModal::OpenModal);
+        assert_eq!(modal.show_modal, true);
+
+        // User clicks the "Close" button inside the modal (triggers MsgModel::CloseModal)
+        modal.modal_update(MsgModal::CloseModal);
+        assert_eq!(modal.show_modal, false);
+    }
+}

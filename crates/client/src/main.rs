@@ -1,3 +1,5 @@
+//! # Main File
+//!
 //! Main entry point into the entire client side of the project
 //!
 //! This file is only created to call the app file and connect all others together
