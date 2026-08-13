@@ -1,1 +1,1 @@
-pub(crate) mod modal;
+pub(crate) mod modal; // creates and displays the modal overlay
