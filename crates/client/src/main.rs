@@ -1,18 +1,19 @@
-use iced::Element;
-use iced::widget::{container, text};
+//! # Main File
+//!
+//! Main entry point into the entire client side of the project
+//!
+//! This file is only created to call the app file and connect all others together
 
-#[derive(Default)]
-struct State;
+mod app;
+mod components;
 
-#[derive(Debug, Clone)]
-enum Message {}
-
-fn update(_state: &mut State, _message: Message) {}
-
-fn view(_state: &State) -> Element<'_, Message> {
-    container(text("Hello World!")).into()
-}
+use app::App;
 
 fn main() -> iced::Result {
-    iced::run(update, view)
+    // iced run was used as this is a stateless/simple sync application
+    // There are not async operations, background tasks or side effects
+    iced::run(App::app_update, App::app_view)
+
+    // Will need to convert from iced::run to iced::application
+    // when I need to connect to server
 }
