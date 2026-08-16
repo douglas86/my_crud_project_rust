@@ -4,6 +4,7 @@
 
 use crate::app::Msg;
 
+use crate::components::form::{FormMode, Forms};
 use iced::widget::{Column, button, container, text};
 use iced::{Alignment, Length};
 use iced::{Color, Element};
@@ -39,13 +40,14 @@ impl Modal {
     }
 
     /// Creates the UI content and overlay for the modal dialog.
-    pub fn modal_view(&self) -> Element<'_, Msg> {
+    pub fn modal_view(&self, content: FormMode) -> Element<'_, Msg> {
         // creates the content inside the modal
         let modal_box = container(
             Column::new()
                 .spacing(20)
                 .align_x(Alignment::Center)
                 .push(text!("Create New Modal").size(24))
+                .push(Modal::display_in_modal(content))
                 .push(button("Close").on_press(Msg::Modal(MsgModal::CloseModal))),
         )
         .padding(20)
@@ -72,6 +74,13 @@ impl Modal {
                 ..container::Style::default()
             })
             .into()
+    }
+
+    /// Method to decide on what content gets displayed in the Modal
+    fn display_in_modal<'a>(content: FormMode) -> Element<'a, Msg> {
+        match content {
+            FormMode::CreateForm => Forms::create_view(),
+        }
     }
 }
 
@@ -107,8 +116,8 @@ mod tests {
         let modal_closed = Modal::default();
         let modal_open = Modal { show_modal: true };
 
-        let _closed_element = modal_closed.modal_view();
-        let _open_element = modal_open.modal_view();
+        let _closed_element = modal_closed.modal_view(FormMode::CreateForm);
+        let _open_element = modal_open.modal_view(FormMode::CreateForm);
     }
 
     #[test]
