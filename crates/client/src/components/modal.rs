@@ -4,7 +4,7 @@
 
 use crate::app::Msg;
 
-use crate::components::form::{FormMode, Forms};
+use crate::components::form::FormMode;
 use iced::widget::{Column, button, container, text};
 use iced::{Alignment, Length};
 use iced::{Color, Element};
@@ -47,7 +47,7 @@ impl Modal {
                 .spacing(20)
                 .align_x(Alignment::Center)
                 .push(text!("Create New Modal").size(24))
-                .push(Modal::display_in_modal(content))
+                .push(self.display_in_modal(content))
                 .push(button("Close").on_press(Msg::Modal(MsgModal::CloseModal))),
         )
         .padding(20)
@@ -77,9 +77,9 @@ impl Modal {
     }
 
     /// Method to decide on what content gets displayed in the Modal
-    fn display_in_modal<'a>(content: FormMode) -> Element<'a, Msg> {
+    fn display_in_modal<'a>(&self, content: FormMode) -> Element<'a, Msg> {
         match content {
-            FormMode::CreateForm => Forms::create_view(),
+            FormMode::CreateForm(forms) => forms.create_view(),
         }
     }
 }
@@ -88,6 +88,7 @@ impl Modal {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::components::form::Forms;
 
     #[test]
     fn test_modal_default_is_closed() {
@@ -116,8 +117,8 @@ mod tests {
         let modal_closed = Modal::default();
         let modal_open = Modal { show_modal: true };
 
-        let _closed_element = modal_closed.modal_view(FormMode::CreateForm);
-        let _open_element = modal_open.modal_view(FormMode::CreateForm);
+        let _closed_element = modal_closed.modal_view(FormMode::CreateForm(Forms::new()));
+        let _open_element = modal_open.modal_view(FormMode::CreateForm(Forms::new()));
     }
 
     #[test]

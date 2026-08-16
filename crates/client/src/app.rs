@@ -2,7 +2,7 @@
 //!
 //! This files provides the entire running of the application
 
-use crate::components::form::FormMode;
+use crate::components::form::{FormMode, Forms};
 use crate::components::modal::{Modal, MsgModal};
 
 use iced::Element;
@@ -69,6 +69,10 @@ impl App {
 
         // stack the modal and the main content together
         // stack macro is used when working with z-index
-        stack![main_content, self.modal.modal_view(FormMode::CreateForm)].into()
+        stack![
+            main_content,
+            self.modal.modal_view(FormMode::CreateForm(Forms::new()))
+        ]
+        .into()
     }
 }
