@@ -5,8 +5,8 @@
 use crate::app::Msg;
 
 use crate::components::form::FormMode;
-use iced::widget::{Column, button, container, text};
-use iced::{Alignment, Length};
+use iced::Length;
+use iced::widget::{button, container, text};
 use iced::{Color, Element};
 
 #[derive(Default, Clone)]
@@ -42,14 +42,11 @@ impl Modal {
     /// Creates the UI content and overlay for the modal dialog.
     pub fn modal_view(&self, content: &FormMode) -> Element<'static, Msg> {
         // creates the content inside the modal
-        let modal_box = container(
-            Column::new()
-                .spacing(20)
-                .align_x(Alignment::Center)
-                .push(text!("Create New Modal").size(24))
-                .push(self.display_in_modal(content))
-                .push(button("Close").on_press(Msg::Modal(MsgModal::CloseModal))),
-        )
+        let modal_box = container(iced::widget::column![
+            text!("Create New Modal").size(24),
+            self.display_in_modal(content),
+            button("close").on_press(Msg::Modal(MsgModal::CloseModal))
+        ])
         .padding(20)
         .style(|_theme| container::Style {
             background: Some(iced::Background::Color(Color::from_rgb8(225, 240, 229))),
