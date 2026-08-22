@@ -12,7 +12,13 @@ use app::App;
 fn main() -> iced::Result {
     // iced run was used as this is a stateless/simple sync application
     // There are not async operations, background tasks or side effects
-    iced::run(App::app_update, App::app_view)
+    iced::application(
+        || (App::default(), iced::Task::none()),
+        App::app_update,
+        App::app_view,
+    )
+    .title("My Application")
+    .run()
 
     // Will need to convert from iced::run to iced::application
     // when I need to connect to server

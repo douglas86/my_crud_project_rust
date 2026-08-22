@@ -9,7 +9,7 @@ use iced::widget::{Column, button, container, text};
 use iced::{Alignment, Length};
 use iced::{Color, Element};
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct Modal {
     /// Controls whether the modal dialog is currently visible or not
     pub show_modal: bool,
@@ -40,7 +40,7 @@ impl Modal {
     }
 
     /// Creates the UI content and overlay for the modal dialog.
-    pub fn modal_view(&self, content: FormMode) -> Element<'_, Msg> {
+    pub fn modal_view(&self, content: &FormMode) -> Element<'static, Msg> {
         // creates the content inside the modal
         let modal_box = container(
             Column::new()
@@ -52,7 +52,7 @@ impl Modal {
         )
         .padding(20)
         .style(|_theme| container::Style {
-            background: Some(iced::Background::Color(Color::from_rgb8(35, 38, 42))),
+            background: Some(iced::Background::Color(Color::from_rgb8(225, 240, 229))),
             border: iced::Border {
                 radius: 10.0.into(),
                 width: 1.0,
@@ -77,7 +77,7 @@ impl Modal {
     }
 
     /// Method to decide on what content gets displayed in the Modal
-    fn display_in_modal<'a>(&self, content: FormMode) -> Element<'a, Msg> {
+    fn display_in_modal<'a>(&self, content: &FormMode) -> Element<'static, Msg> {
         match content {
             FormMode::CreateForm(forms) => forms.create_view(),
         }
@@ -117,8 +117,8 @@ mod tests {
         let modal_closed = Modal::default();
         let modal_open = Modal { show_modal: true };
 
-        let _closed_element = modal_closed.modal_view(FormMode::CreateForm(Forms::new()));
-        let _open_element = modal_open.modal_view(FormMode::CreateForm(Forms::new()));
+        let _closed_element = modal_closed.modal_view(&FormMode::CreateForm(Forms::new()));
+        let _open_element = modal_open.modal_view(&FormMode::CreateForm(Forms::new()));
     }
 
     #[test]

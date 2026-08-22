@@ -9,7 +9,7 @@ use iced::Element;
 use iced::widget::{Column, button, container, stack};
 use iced::{Alignment, Color, Length};
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 pub struct App {
     /// Bring the Modal struct into scope for the app
     modal: Modal,
@@ -26,12 +26,12 @@ impl App {
     ///
     /// # Arguments
     /// * `message` - The modal events passed to the Modal component on actions
-    pub fn app_update(&mut self, message: Msg) {
+    pub fn app_update(&mut self, message: Msg) -> iced::Task<Msg> {
         match message {
-            Msg::Modal(msg) => {
-                self.modal.modal_update(msg);
-            }
+            Msg::Modal(msg) => self.modal.modal_update(msg),
         }
+
+        iced::Task::none()
     }
 
     /// Creates the main page on application load
@@ -71,7 +71,7 @@ impl App {
         // stack macro is used when working with z-index
         stack![
             main_content,
-            self.modal.modal_view(FormMode::CreateForm(Forms::new()))
+            self.modal.modal_view(&FormMode::CreateForm(Forms::new()))
         ]
         .into()
     }
