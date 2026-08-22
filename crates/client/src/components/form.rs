@@ -3,6 +3,8 @@ use iced::Element;
 use iced::widget::image::Handle;
 use iced::widget::{container, image as image_widget};
 
+const FERRIES_SVG: &[u8] = include_bytes!("../../assets/rustacean-flat-happy.png");
+
 #[derive(Debug, Clone)]
 pub(crate) enum FormMode {
     CreateForm(Forms),
@@ -16,7 +18,7 @@ pub struct Forms {
 impl Forms {
     pub fn new() -> Self {
         Self {
-            profile_image: Handle::from_rgba(1, 1, vec![218, 77, 38, 255]),
+            profile_image: Handle::from_bytes(FERRIES_SVG),
         }
     }
 
