@@ -6,7 +6,7 @@ use crate::components::form::{FormMode, Forms};
 use crate::components::modal::{Modal, MsgModal};
 
 use iced::Element;
-use iced::widget::{Column, button, container, stack};
+use iced::widget::{button, container, stack};
 use iced::{Alignment, Color, Length};
 
 #[derive(Default, Clone)]
@@ -51,11 +51,11 @@ impl App {
                         radius: 6.0.into(),
                         ..iced::Border::default()
                     },
-                    ..button::Style::default()
+                    ..button::Style::default().into()
                 });
 
         // Displays the main content of the page
-        let main_content = container(Column::new().push(corner_button))
+        let main_content = container(iced::widget::column![corner_button])
             .width(Length::Fill)
             .height(Length::Fill)
             .align_x(Alignment::End)
