@@ -1,7 +1,7 @@
 use crate::app::Msg;
 use iced::Element;
 use iced::widget::image::Handle;
-use iced::widget::{Image, container, image as image_widget};
+use iced::widget::{container, image as image_widget};
 
 #[derive(Debug, Clone)]
 pub(crate) enum FormMode {
@@ -20,21 +20,11 @@ impl Forms {
         }
     }
 
-    pub fn create_view<'a>(&self) -> Element<'static, Msg> {
-        let img = image_widget(self.profile_image.clone())
+    pub fn create_view(&self) -> Element<'static, Msg> {
+        let img = image_widget(Clone::clone(&self.profile_image))
             .width(100)
             .height(100);
 
-        // TODO: Create an image drag and drop feature using subscriptions
-
-        println!("img: {:?}", self.profile_image);
-
-        container(img).into()
-    }
-}
-
-impl Default for Forms {
-    fn default() -> Self {
-        Self::new()
+        container(Element::from(img)).into()
     }
 }
